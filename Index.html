@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login SIMONI LKD-LAD - Sulawesi Tenggara</title>
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --bg: #0f172a;
+            --white: #ffffff;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --danger: #fb7185;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            background-image: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
+                              url('https://lh3.googleusercontent.com/d/1zindwrn7tn7DcryXCTp4ZRPnpUYYVgBf');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 350px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            color: var(--text-light);
+        }
+        .header h1 { 
+            font-size: 1.4rem;
+            color: var(--white);
+            margin: 0; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .header .agency { 
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+        .header p { 
+            font-size: 0.75rem; 
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { 
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            color: var(--text-light);
+        }
+        input {
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+        }
+        .btn-login {
+            width: 100%; 
+            padding: 12px;
+            background: var(--primary);
+            color: #0f172a;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-login:hover { 
+            background: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+        .btn-login:active { transform: translateY(0); }
+        .btn-login:disabled { 
+            background: #475569; 
+            color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #error-msg {
+            color: #ffffff;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            display: none;
+            padding: 10px;
+            background: rgba(251, 113, 133, 0.2);
+            border: 1px solid var(--danger);
+            border-radius: 10px;
+        }
+        footer { 
+            margin-top: 30px; 
+            font-size: 0.6rem; 
+            color: var(--text-muted); 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); 
+            padding-top: 15px; 
+        }
+        footer strong { color: var(--text-light); }
+    </style>
+</head>
+<body>
+<div class="login-card">
+    <div class="header">
+        <h1>SIMONI LKD-LAD</h1>
+        <div class="agency">SISTEM MONITORING LEMBAGA KEMASYARAKATAN DESA & LEMBAGA ADAT DESA</div>
+        <p>DINAS PMD PROVINSI SULAWESI TENGGARA</p>
+    </div>
+    <div id="error-msg"></div>
+    <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="username" required autocomplete="username" placeholder="Masukkan username">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••">
+        </div>
+        <button type="submit" id="btnLogin" class="btn-login">Login</button>
+    </form>
+    <footer>
+        COPYRIGHT 2026<br>
+        <strong>Bid. Pemberdayaan Kelembagaan Sosbud. Masyarakat</strong>
+    </footer>
+</div>
+<script>
+    /**
+     * Logika Login tetap dipertahankan sesuai aslinya.
+     */
+    function handleLogin(e) {
+        e.preventDefault();
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        const btn = document.getElementById('btnLogin');
+        const err = document.getElementById('error-msg');
+
+        err.style.display = 'none';
+        btn.disabled = true;
+        btn.innerText = "Mautentikasi...";
+
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res.success) {
+                    window.top.location.href = res.url + "?page=" + res.targetPage;
+                } else {
+                    err.innerText = res.message;
+                    err.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = "Login";
+                }
+            })
+            .withFailureHandler(function() {
+                err.innerText = "Gagal terhubung ke server.";
+                err.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = "Login";
+            })
+            .loginUser(u, p);
+    }
+</script>
+</body>
+</html>

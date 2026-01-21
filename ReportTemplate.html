@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: A4; margin: 1.2cm; }
+        body { font-family: 'Times New Roman', serif; font-size: 10pt; line-height: 1.3; color: #333; }
+        .kop { text-align: center; border-bottom: 3px double #000; padding-bottom: 5px; margin-bottom: 15px; }
+        .title { text-align: center; font-weight: bold; text-decoration: underline; margin-bottom: 15px; font-size: 11pt; }
+        .section-h { background: #eee; font-weight: bold; padding: 4px 6px; border: 1px solid #000; margin-top: 12px; font-size: 9pt; }
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        table.border th, table.border td { border: 1px solid #000; padding: 4px; font-size: 9pt; }
+        .label { width: 35%; font-weight: bold; vertical-align: top; }
+        .status-box { border: 2px solid #1e3a8a; text-align: center; padding: 8px; margin: 15px 0; background: #f0f4f8; }
+        .footer-sig { float: right; width: 230px; text-align: center; margin-top: 20px; }
+        .check-box { font-family: DejaVu Sans, sans-serif; }
+    </style>
+</head>
+<body>
+    <div class="kop">
+        <h3 style="margin:0">PEMERINTAH KABUPATEN <?= (d.kab || '-') ?></h3>
+        <h3 style="margin:0">KECAMATAN <?= (d.kec || '-') ?></h3>
+        <h2 style="margin:0">DESA <?= (d.des || '-') ?></h2>
+        <p style="margin:5px 0 0 0; font-size: 8pt; font-style: italic;">Alamat Kantor Desa: <?= (d.kades_almt || '................................') ?></p>
+    </div>
+
+    <div class="title">LAPORAN EVALUASI KINERJA LEMBAGA KEMASYARAKATAN DESA</div>
+
+    <div class="section-h">I. IDENTITAS DESA & KEPALA DESA</div>
+    <table>
+        <tr><td class="label">Nama Kepala Desa</td><td>: <strong><?= (d.kades_nama || '-') ?></strong></td></tr>
+        <tr><td class="label">Jenis Kelamin / Kontak</td><td>: <?= (d.kades_gen === 'L' ? 'Laki-laki' : 'Perempuan') ?> / <?= (d.kades_hp || '-') ?></td></tr>
+    </table>
+
+    <div class="section-h">II. IDENTITAS & LEGALITAS LEMBAGA</div>
+    <table>
+        <tr><td class="label">Nama Lembaga (Jenis)</td><td>: <strong><?= (d.nama || '-') ?></strong> (<?= (d.jenis || '-') ?>)</td></tr>
+        <tr><td class="label">SK Kepengurusan</td><td>: No. <?= (d.sk_no || '-') ?> (Tahun <?= (d.sk_thn || '-') ?>)</td></tr>
+        <tr><td class="label">Regulasi Desa (Perdes)</td><td>: <?= (d.perdes || 'Tidak Ada') ?> <?= d.perdes_no ? '(No: '+d.perdes_no+')' : '' ?></td></tr>
+    </table>
+
+    <div class="section-h">III. PENINGKATAN KAPASITAS & DOKUMEN KERJA</div>
+    <table>
+        <tr><td class="label">Pernah Ikut Bimtek/Pelatihan</td><td>: <?= (d.kap_ada || 'Tidak') ?></td></tr>
+        <? if(d.kap_ada === 'Ya') { ?>
+        <tr><td class="label">Nama & Jenis Kegiatan</td><td>: <?= d.kap_nama ?> (<?= d.kap_jns ?>)</td></tr>
+        <tr><td class="label">Topik / Materi</td><td>: <?= d.kap_mtr ?></td></tr>
+        <tr><td class="label">Penyelenggara & Tahun</td><td>: <?= d.kap_pny ?> (Tahun <?= d.kap_thn ?>)</td></tr>
+        <? } ?>
+        <tr><td class="label">Dokumen Kerja</td><td>: <?= (d.dok_ada === 'Ya' ? 'Tersedia ('+d.dok_jns+')' : 'Tidak Ada') ?></td></tr>
+    </table>
+
+    <!-- SEKSI BARU: SARANA & PARTISIPASI -->
+    <div class="section-h">IV. SARANA PRASARANA & PARTISIPASI</div>
+    <table>
+        <tr><td class="label">Kantor Sekretariat</td><td>: <?= (d.sekre || 'Tidak Ada') ?></td></tr>
+        <tr><td class="label">Sarana Kerja Utama</td><td>: <?= (d.sarana_kerja || '-') ?></td></tr>
+        <tr><td class="label">Pelibatan Musyawarah</td><td>: 
+            [<?= d.musdes === 'Ya' ? 'X' : ' ' ?>] Musdes &nbsp; 
+            [<?= d.musren === 'Ya' ? 'X' : ' ' ?>] Musrenbang &nbsp; 
+            [<?= d.rpjm === 'Ya' ? 'X' : ' ' ?>] RPJMDes &nbsp; 
+            [<?= d.rkp === 'Ya' ? 'X' : ' ' ?>] RKPDes
+        </td></tr>
+    </table>
+
+    <div class="section-h">V. STRUKTUR PENGURUS INTI</div>
+    <table class="border">
+        <thead><tr style="background:#f2f2f2"><th>No</th><th>Nama Pengurus</th><th>Jabatan</th><th>JK</th><th>Kontak</th></tr></thead>
+        <tbody>
+            <? if(pengurus && pengurus.length > 0) { ?>
+                <? for(var i=0; i<pengurus.length; i++) { ?>
+                    <tr><td align="center"><?= i+1 ?></td><td><?= pengurus[i].nama ?></td><td><?= pengurus[i].jab ?></td><td align="center"><?= pengurus[i].gen ?></td><td align="center"><?= pengurus[i].hp ?></td></tr>
+                <? } ?>
+            <? } else { ?> <tr><td colspan="5" align="center">Data pengurus belum diinput detail</td></tr> <? } ?>
+        </tbody>
+    </table>
+
+    <div class="section-h">VI. ANGGARAN & AKUNTABILITAS</div>
+    <table>
+        <tr><td class="label">Dukungan Anggaran</td><td>: <?= (d.angg_ada || '-') ?> (Sumber: <?= (d.angg_sbr || '-') ?>)</td></tr>
+        <tr><td class="label">Jumlah & Peruntukan</td><td>: Rp <?= Number(d.angg_jml || 0).toLocaleString('id-ID') ?> (<?= (d.angg_utk || '-') ?>)</td></tr>
+        <tr><td class="label">Laporan Akhir Kegiatan</td><td>: <?= (d.lap_akhir_ada === 'Ya' ? 'Tersedia (Tahun '+d.lap_akhir_thn+')' : 'Tidak Ada') ?></td></tr>
+    </table>
+
+    <div class="status-box">
+        <strong>HASIL EVALUASI SISTEM:</strong><br>
+        <span style="font-size: 16pt; color: #1e3a8a; font-weight: bold;"><?= status_monev ?></span><br>
+        Skor Kumulatif: <?= skor_total ?> / 100
+    </div>
+
+    <div class="footer-sig">
+        <?= (d.des || '-') ?>, <?= tgl_cetak ?><br>
+        Kepala Desa / Lurah,
+        <div style="height:55px"></div>
+        <strong>( <?= (d.kades_nama || '.....................................') ?> )</strong>
+    </div>
+</body>
+</html>
